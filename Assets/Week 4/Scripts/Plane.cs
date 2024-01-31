@@ -82,4 +82,8 @@ public class Plane : MonoBehaviour
             lastPosition = newPosition;
         }
     }
+    private void OnBecameInvisible()
+    {
+        Destroy(gameObject);
+    }
 }
