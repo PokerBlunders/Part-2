@@ -15,6 +15,9 @@ public class Plane : MonoBehaviour
     float landingTimer;
     SpriteRenderer spriteRenderer;
 
+    bool isLanding = false;
+    private Collider2D runwayCollider;
+
     private void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
@@ -26,31 +29,57 @@ public class Plane : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         speed = Random.Range(1, 3);
+
+        runwayCollider = FindAnyObjectByType<Collider2D>();
     }
 
     private void FixedUpdate()
     {
         currentPosition = transform.position;
-        if (points.Count > 0)
+
+        if (isLanding)
         {
-            Vector2 direction = points[0] - currentPosition;
-            float angle = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
-            rigidbody.rotation = -angle;
+            landingTimer += 0.1f * Time.deltaTime;
+            float interpolation = landing.Evaluate(landingTimer);
+
+            if (transform.localScale.x < 1f)
+            {
+                Destroy(gameObject);
+            }
+
+            transform.localScale = Vector3.Lerp(new Vector3(4,4,0), Vector3.zero, interpolation);
+            rigidbody.MovePosition(rigidbody.position + (Vector2)transform.up/2 * Time.deltaTime);
         }
-        rigidbody.MovePosition(rigidbody.position + (Vector2)transform.up * speed * Time.deltaTime);
+        else
+        {
+
+            if (points.Count > 0)
+            {
+                Vector2 direction = points[0] - currentPosition;
+                float angle = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
+                rigidbody.rotation = -angle;
+            }
+            rigidbody.MovePosition(rigidbody.position + (Vector2)transform.up * speed * Time.deltaTime);
+        }
     }
 
     private void Update()
     {
-        if(Input.GetKey(KeyCode.Space))
+
+        /*   if(Input.GetKey(KeyCode.Space))
+           {
+               landingTimer += 0.1f * Time.deltaTime;
+               float interpolation = landing.Evaluate(landingTimer);
+               if (transform.localScale.x < 0.1f)
+               {
+                   Destroy(gameObject);
+               }
+               transform.localScale = Vector3.Lerp(Vector3.one, Vector3.zero, interpolation);
+           } */
+
+        if (IsInsideRunwayCollider())
         {
-            landingTimer += 0.1f * Time.deltaTime;
-            float interpolation = landing.Evaluate(landingTimer);
-            if (transform.localScale.x < 0.1f)
-            {
-                Destroy(gameObject);
-            }
-            transform.localScale = Vector3.Lerp(Vector3.one, Vector3.zero, interpolation);
+            isLanding = true;
         }
 
         lineRenderer.SetPosition(0, transform.position);
@@ -67,6 +96,10 @@ public class Plane : MonoBehaviour
                 lineRenderer.positionCount = Mathf.Max(1, lineRenderer.positionCount - 1);
             }
         }
+    }
+    private bool IsInsideRunwayCollider()
+    {
+        return runwayCollider.OverlapPoint(transform.position);
     }
 
     private void OnMouseDown()
