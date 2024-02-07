@@ -9,7 +9,7 @@ public class Plane : MonoBehaviour
     Vector2 lastPosition;
     LineRenderer lineRenderer;
     Vector2 currentPosition;
-    Rigidbody2D rigidbody;
+    Rigidbody2D rb;
     float speed;
     public AnimationCurve landing;
     float landingTimer;
@@ -24,7 +24,7 @@ public class Plane : MonoBehaviour
         lineRenderer.positionCount = 1;
         lineRenderer.SetPosition(0, transform.position);
 
-        rigidbody = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
 
         spriteRenderer = GetComponent<SpriteRenderer>();
 
@@ -48,7 +48,7 @@ public class Plane : MonoBehaviour
             }
 
             transform.localScale = Vector3.Lerp(new Vector3(4,4,0), Vector3.zero, interpolation);
-            rigidbody.MovePosition(rigidbody.position + (Vector2)transform.up/2 * Time.deltaTime);
+            rb.MovePosition(rb.position + (Vector2)transform.up/2 * Time.deltaTime);
         }
         else
         {
@@ -57,9 +57,9 @@ public class Plane : MonoBehaviour
             {
                 Vector2 direction = points[0] - currentPosition;
                 float angle = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
-                rigidbody.rotation = -angle;
+                rb.rotation = -angle;
             }
-            rigidbody.MovePosition(rigidbody.position + (Vector2)transform.up * speed * Time.deltaTime);
+            rb.MovePosition(rb.position + (Vector2)transform.up * speed * Time.deltaTime);
         }
     }
 
