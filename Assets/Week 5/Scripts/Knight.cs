@@ -45,15 +45,14 @@ public class Knight : MonoBehaviour
     {
         if (isDead) return;
         clickOnSelf = true;
-        TakeDamage(1);
-
+        SendMessage("TakeDamage", 1);
     }
     private void OnMouseUp()
     {
         clickOnSelf = false;
     }
 
-    void TakeDamage(float damage)
+    public void TakeDamage(float damage)
     {
         health -= damage;
         health = Mathf.Clamp(health, 0, maxHealth);
