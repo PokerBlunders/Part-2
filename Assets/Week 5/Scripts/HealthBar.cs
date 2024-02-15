@@ -6,8 +6,14 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     public Slider slider;
-    public void TakeDamage(float damage)
+
+    private void Start()
     {
-        slider.value -= damage;
+        UpdateHealth(PlayerPrefs.GetFloat("KnightHealth", slider.maxValue));
+    }
+
+    public void UpdateHealth(float health)
+    {
+        slider.value = Mathf.Clamp(health, slider.minValue, slider.maxValue);
     }
 }
