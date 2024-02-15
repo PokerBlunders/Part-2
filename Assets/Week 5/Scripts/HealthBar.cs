@@ -14,6 +14,6 @@ public class HealthBar : MonoBehaviour
 
     public void UpdateHealth(float health)
     {
-        slider.value = Mathf.Clamp(health, slider.minValue, slider.maxValue);
+        slider.value = health;
     }
 }
