@@ -18,7 +18,8 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        movement.y = -1;
+
+        destination = new Vector2(transform.position.x, 0f);
     }
 
     private void FixedUpdate()
