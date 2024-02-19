@@ -13,11 +13,13 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 3;
     public AnimationCurve slowdown;
     float timer;
+    Transform playerTransform;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        playerTransform = GetComponent<Transform>();
 
         destination = new Vector2(transform.position.x, 0f);
     }
@@ -25,16 +27,16 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         movement = destination - (Vector2)transform.position;
-        if (movement.magnitude < 0.1)
-        {
-            movement = Vector2.zero;
-        }
 
         if (movement.magnitude < 1)
         {
             timer = 1f * Time.deltaTime;
             float interpolation = slowdown.Evaluate(timer);
             rb.MovePosition(Vector2.Lerp(rb.position, destination, interpolation));
+        }
+        if (movement.magnitude < 0.1)
+        {
+            movement = Vector2.zero;
         }
         else
         {
@@ -44,9 +46,10 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             destination = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            destination.y = destination.y + (playerTransform.localScale.y/2);
         }
        
         animator.SetFloat("Speed", movement.sqrMagnitude);
