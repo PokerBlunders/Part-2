@@ -11,21 +11,4 @@ public class MenuSceneLoader : MonoBehaviour
     {
         SceneManager.LoadScene(3);
     }
-
-    public void SetResolutionTo16by9()
-    {
-        SetResolution(16, 9);
-        Debug.Log("Changed to 16:9");
-    }
-
-    public void SetResolutionToFullHD()
-    {
-        SetResolution(1920, 1080);
-        Debug.Log("Changed to Full HD");
-    }
-
-    private void SetResolution(int width, int height)
-    {
-        Screen.SetResolution(width, height, Screen.fullScreen);
-    }
 }

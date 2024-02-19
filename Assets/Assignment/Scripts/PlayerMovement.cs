@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        movement.y = -1;
     }
 
     private void FixedUpdate()
@@ -27,14 +28,17 @@ public class PlayerMovement : MonoBehaviour
         {
             movement = Vector2.zero;
         }
-        rb.MovePosition(rb.position + movement.normalized * speed * Time.deltaTime);
 
-        /*
-        timer = 1f * Time.deltaTime;
-        float interpolation = slowdown.Evaluate(timer);
-        Vector2 newPosition = Vector2.Lerp(rb.position, destination, interpolation);
-        rb.MovePosition(newPosition);
-        */
+        if (movement.magnitude < 1)
+        {
+            timer = 1f * Time.deltaTime;
+            float interpolation = slowdown.Evaluate(timer);
+            rb.MovePosition(Vector2.Lerp(rb.position, destination, interpolation));
+        }
+        else
+        {
+            rb.MovePosition(rb.position + movement.normalized * speed * Time.deltaTime);
+        }
     }
 
     void Update()
