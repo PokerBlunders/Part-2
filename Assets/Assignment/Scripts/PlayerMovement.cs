@@ -8,8 +8,8 @@ public class PlayerMovement : MonoBehaviour
 {
     Rigidbody2D rb;
     public Animator animator;
-    Vector2 destination;
-    Vector2 movement;
+    public Vector2 destination;
+    public Vector2 movement;
     public float speed = 3;
     public AnimationCurve slowdown;
     float timer;

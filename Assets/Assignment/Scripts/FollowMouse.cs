@@ -10,19 +10,21 @@ public class FollowMouse : MonoBehaviour
     public float stopDistance = 0.5f;
     float angle;
     float distanceToMouse;
+    Vector2 mousePosition;
+    Vector2 direction;
 
     void Update()
     {
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        Vector2 direction = (Vector2)mousePosition - (Vector2)transform.position;
+        direction = (Vector2)mousePosition - (Vector2)transform.position;
 
         distanceToMouse = direction.magnitude;
 
         if(distanceToMouse > stopDistance)
         {
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.AngleAxis(angle + 25, Vector3.forward);
             transform.position = Vector2.MoveTowards(transform.position, mousePosition, speed * Time.deltaTime);
         }
     }
