@@ -12,11 +12,8 @@ public class ItemCollector : MonoBehaviour
   
     void OnTriggerEnter2D(Collider2D collision)
         {
-        //if (Input.GetMouseButtonDown(1))
-            {
-            item.SetActive(false);
-            SetItemImageActive();
-            }
+          item.SetActive(false);
+          SetItemImageActive();
         }
 
     public void SetItemImageActive()
