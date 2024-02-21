@@ -12,6 +12,9 @@ public class Controller : MonoBehaviour
     Vector2 direction;
 
     public static PlayerSelector CurrentSelection { get; private set; }
+
+    public static Ball Score { get; set; }
+
     public static void SetCurrentSelection(PlayerSelector player)
     {
         if (CurrentSelection != null)
