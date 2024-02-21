@@ -9,10 +9,13 @@ public class PlayerSelector : MonoBehaviour
     public Color selectedColor;
     public Color unselectedColor;
     SpriteRenderer spriteRenderer;
+    Rigidbody2D rb;
+    float speed = 100;
 
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        rb = GetComponent<Rigidbody2D>();
         Selected(false);
     }
     private void OnMouseDown()
@@ -29,5 +32,10 @@ public class PlayerSelector : MonoBehaviour
         {
             spriteRenderer.color = unselectedColor;
         }
+    }
+
+    public void Move(Vector2 direction)
+    {
+        rb.AddForce(direction * speed, ForceMode2D.Impulse);
     }
 }
