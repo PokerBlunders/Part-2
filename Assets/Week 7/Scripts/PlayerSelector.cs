@@ -10,7 +10,7 @@ public class PlayerSelector : MonoBehaviour
     public Color unselectedColor;
     SpriteRenderer spriteRenderer;
     Rigidbody2D rb;
-    float speed = 100;
+    float speed = 50;
 
     private void Start()
     {
