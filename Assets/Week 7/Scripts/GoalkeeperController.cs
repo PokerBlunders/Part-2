@@ -9,15 +9,24 @@ public class GoalkeeperController : MonoBehaviour
     public Rigidbody2D GoalkeeperRb;
     public Transform goalCenter;
     public float maxDistance = 3f;
+    public float speed = 5f;
+
+    private Vector2 targetPosition;
+
+    private void Start()
+    {
+        targetPosition = GoalkeeperRb.position;
+    }
 
     void Update()
     {
         if (Controller.CurrentSelection != null)
         {
             Vector2 playerPosition = Controller.CurrentSelection.transform.position;
-            Vector2 targetPosition = GetGoalkeeperPosition(playerPosition);
-            GoalkeeperRb.MovePosition(targetPosition);
+            targetPosition = GetGoalkeeperPosition(playerPosition);
         }
+        Vector2 currentPosition = GoalkeeperRb.position;
+        GoalkeeperRb.MovePosition(Vector2.MoveTowards(currentPosition, targetPosition, speed * Time.deltaTime));
     }
 
     Vector2 GetGoalkeeperPosition(Vector2 playerPosition)
