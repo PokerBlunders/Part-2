@@ -4,20 +4,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
+using TMPro;
 
 public class Ball : MonoBehaviour
 {
-    Rigidbody rb;
-    public Transform kickoff;
+    public Transform kickoffSpot;
+    Rigidbody2D rb;
+    public TextMeshProUGUI scoreText;
 
-    private void Start()
+    void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    void OnTriggerEnter2D(Collider2D collider)
     {
-        //Controller.Score(this);
-        //rb.MovePosition(kickoff);
+            Controller.UpdateScore(Controller.score + 1, scoreText);
+            transform.position = kickoffSpot.position;
+            rb.velocity = Vector2.zero;
     }
 }
